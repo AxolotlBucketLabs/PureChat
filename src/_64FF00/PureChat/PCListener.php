@@ -6,9 +6,8 @@ use _64FF00\PurePerms\EventManager\PPRankChangedEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\player\IPlayer;
 use pocketmine\player\Player;
-use _64FF00\PureChat\ChatFormat;
+
 class PCListener implements Listener
 {
     /*
@@ -24,7 +23,7 @@ class PCListener implements Listener
           888  888    "Y8888P"        888  888        888        "Y8888P"   "Y8888P"
     */
 
-    private $plugin;
+    private PureChat $plugin;
 
     /**
  * @param PureChat $plugin
@@ -34,13 +33,12 @@ class PCListener implements Listener
         $this->plugin = $plugin;
     }
 
-    public function onGroupChanged(PPRankChangedEvent $event)
+    public function onGroupChanged(PPRankChangedEvent $event): void
     {
-        /** @var IPlayer $player */
         $player = $event->getPlayer();
 		if($player instanceof Player)
 		{
-            $WorldName = $this->plugin->getConfig()->get("enable-multiworld-chat") ? $player->getWorld()->getDisplayName() : null;
+            $WorldName = $this->plugin->getConfig()->get("enable-multiworld-chat") === true ? $player->getWorld()->getDisplayName() : null;
 			$nameTag = $this->plugin->getNametag($player, $WorldName);
 			$player->setNameTag($nameTag);
 		}
@@ -50,11 +48,10 @@ class PCListener implements Listener
      * @param PlayerJoinEvent $event
      * @priority HIGH
      */
-    public function onPlayerJoin(PlayerJoinEvent $event)
+    public function onPlayerJoin(PlayerJoinEvent $event): void
     {
-        /** @var Player $player */
         $player = $event->getPlayer();
-        $WorldName = $this->plugin->getConfig()->get("enable-multiworld-chat") ? $player->getWorld()->getDisplayName() : null;
+        $WorldName = $this->plugin->getConfig()->get("enable-multiworld-chat") === true ? $player->getWorld()->getDisplayName() : null;
         $nameTag = $this->plugin->getNametag($player, $WorldName);
         $player->setNameTag($nameTag);
     }
@@ -63,12 +60,12 @@ class PCListener implements Listener
      * @param PlayerChatEvent $event
      * @priority HIGH
      */
-    public function onPlayerChat(PlayerChatEvent $event)
+    public function onPlayerChat(PlayerChatEvent $event): void
     {
 		if ($event->isCancelled()) return;
 		$player = $event->getPlayer();
         $message = $event->getMessage();
-        $WorldName = $this->plugin->getConfig()->get("enable-multiworld-chat") ? $player->getWorld()->getDisplayName() : null;
+        $WorldName = $this->plugin->getConfig()->get("enable-multiworld-chat") === true ? $player->getWorld()->getDisplayName() : null;
         $ChatFormat = new ChatFormat($player, $message, $WorldName, $this->plugin);
         $event->setFormatter($ChatFormat);
     }

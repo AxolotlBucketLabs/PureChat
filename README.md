@@ -1,21 +1,27 @@
 <p align="center">
-    <a href="https://github.com/Vecnavium/PureChat"><img src="https://github.com/Vecnavium/PureChat/blob/stable/863.png"></img></a><br>
-    <b>Provides custom chat formats based on PurePerms groups for your server.</b>
+    <img src="863.png" alt="PureChat icon" width="128" /><br>
+    <b>PureChat continuation for Axolotl-PM API 5.</b>
 </p>
 
-<p align="center">
-    <a href="https://discord.gg/6M9tGyWPjr"><img src="https://img.shields.io/discord/837701868649709568?label=discord&color=7289DA&logo=discord" alt="Discord" /></a>
-</p>
+PureChat provides group-based chat formats, prefixes, suffixes, and nametags through PurePerms. This repository is the maintained API 5 continuation under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins). It keeps the original `PureChat` identity, `PurePerms` dependency, commands, permission nodes, and configuration layout.
 
-It's time for everyone to use alternatives as PurePerms & PureChat is outdated in a sense of the features itself and the functionality. The official alternatives that are actually better than PurePerms and PureChat are the following: [GroupsAPI](https://github.com/alvin0319/GroupsAPI) & [RankSystem](https://github.com/IvanCraft623/RankSystem)
+## Compatibility
+
+- Axolotl-PM API 5 (`api: [5.0.0]`), tested against the pinned 5.51.1 source in CI.
+- Requires the maintained [PurePerms](https://github.com/NhanAZ-Plugins/PurePerms) plugin.
+- PHP 8.4 for the development and build toolchain.
+
+The maintained baseline is `2.1.0`. CI produces a PHAR artifact for every push and pull request; it does not publish a GitHub release automatically.
+
+See [UPSTREAM.md](UPSTREAM.md) for provenance and compatibility policy, and [CHANGELOG.md](CHANGELOG.md) for maintained changes.
 
 
 # Commands
 
 Command | Description | Permission
 --- | --- | ---
-`/setsuffix <player> <suffix>` | Set a players suffix. | pchat.command.setsuffix
-`/setprefix <player> <prefix>` | Set a players prefix | pchat.command.setprefix
+`/setsuffix <suffix>` | Set your suffix in-game. | pchat.command.setsuffix
+`/setprefix <prefix>` | Set your prefix in-game. | pchat.command.setprefix
 `/setnametag <group> <world> <format>` | Set the default nametag of a group | pchat.command.setnametag
 `/setformat <group> <world> <format>` | Set default chat format | pchat.command.setformat
 
@@ -28,7 +34,7 @@ You need to set 'pchat.coloredMessages' permission for the players if you want t
 
 **What are the colour codes to use, and where should I put them?**
 
-See the available colour codes listed in the Config. Do not use colour codes in PurePerms groups directly, use PureChat config instead.
+See the available colour codes listed in the Config. Do not use colour codes in PurePerms groups directly; use PureChat config instead.
 
 # Permissions
 
@@ -39,3 +45,13 @@ See the available colour codes listed in the Config. Do not use colour codes in 
  - pchat.command.setprefix
  - pchat.command.setnametag
  - pchat.command.setformat
+
+## Build locally
+
+The repository uses [NhanAZ/DevTools](https://github.com/NhanAZ/DevTools) for reproducible PHAR builds and PHPStan Level Max analysis. A local build from the workspace can be run with:
+
+```powershell
+php -d phar.readonly=0 .tooling/DevTools/bin/devtools.php build --project=. --out=build --overwrite --json
+```
+
+The PHPStan configuration also needs the PurePerms source and an Axolotl-PM checkout, as shown in CI.

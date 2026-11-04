@@ -10,7 +10,7 @@ use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
-use pocketmine\world\World;
+use RuntimeException;
 
 class PureChat extends PluginBase
 {
@@ -32,10 +32,13 @@ class PureChat extends PluginBase
     private Config $config;
 
     private PurePerms $purePerms;
-    public function getPurePerms(){
+    public function getPurePerms(): PurePerms
+    {
         return $this->purePerms;
     }
-    public function getthisConfig(){
+
+    public function getthisConfig(): Config
+    {
         return $this->config;
     }
 
@@ -52,7 +55,8 @@ class PureChat extends PluginBase
         }
 
         $purePerms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
-        assert($purePerms instanceof PurePerms);
+        if(!$purePerms instanceof PurePerms)
+            throw new RuntimeException("PurePerms is required by PureChat");
         $this->purePerms = $purePerms;
     }
     
@@ -65,7 +69,7 @@ class PureChat extends PluginBase
      * @param CommandSender $sender
      * @param Command $cmd
      * @param string $label
-     * @param array $args
+     * @param list<string> $args
      */
     public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool{
         switch(strtolower($cmd->getName()))
@@ -117,7 +121,7 @@ class PureChat extends PluginBase
                     return true;
                 }
 
-                $WorldName = $this->config->get("enable-multiworld-chat") ? $sender->getWorld()->getDisplayName() : null;
+                $WorldName = $this->config->get("enable-multiworld-chat") === true ? $sender->getWorld()->getDisplayName() : null;
                 $prefix = str_replace("{BLANK}", ' ', implode('', $args));
                 $this->setPrefix($prefix, $sender, $WorldName);
                 $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " You set your prefix to " . $prefix . ".");
@@ -137,7 +141,7 @@ class PureChat extends PluginBase
                     return true;
                 }
 
-                $WorldName = $this->config->get("enable-multiworld-chat") ? $sender->getWorld()->getDisplayName() : null;
+                $WorldName = $this->config->get("enable-multiworld-chat") === true ? $sender->getWorld()->getDisplayName() : null;
                 $suffix = str_replace("{BLANK}", ' ', implode('', $args));
                 $this->setSuffix($suffix, $sender, $WorldName);
                 $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " You set your suffix to " . $suffix . ".");
@@ -147,57 +151,86 @@ class PureChat extends PluginBase
         return true;
     }
 
-    private function fixOldConfig()
+    private function fixOldConfig(): void
     {
-        $tempData = $this->config->getAll();
+        $tempData = $this->stringKeyedArray($this->config->getAll());
         $version = $this->getDescription()->getVersion();
         $tempData["version"] = $version;
-        {
-            $tempData["enable-multiworld-chat"] = $tempData["enable-multiworld-support"];
+        $tempData["enable-multiworld-chat"] = $tempData["enable-multiworld-support"] ?? false;
+        if(isset($tempData["enable-multiworld-support"]))
             unset($tempData["enable-multiworld-support"]);
-        }
-        if(isset($tempData["groups"]))
+
+        $groups = $this->stringKeyedArray($tempData["groups"] ?? null);
+        if($groups !== [])
         {
-            foreach($tempData["groups"] as $groupName => $tempGroupData)
+            $convertedGroups = [];
+            foreach($groups as $groupName => $rawGroupData)
             {
+                $tempGroupData = $this->stringKeyedArray($rawGroupData);
                 if(isset($tempGroupData["default-chat"]))
                 {
-                    $tempGroupData["chat"] = $this->fixOldData($tempGroupData["default-chat"]);
+                    if(is_string($tempGroupData["default-chat"]))
+                        $tempGroupData["chat"] = $this->fixOldData($tempGroupData["default-chat"]);
                     unset($tempGroupData["default-chat"]);
                 }
 
                 if(isset($tempGroupData["default-nametag"]))
                 {
-                    $tempGroupData["nametag"] = $this->fixOldData($tempGroupData["default-nametag"]);
+                    if(is_string($tempGroupData["default-nametag"]))
+                        $tempGroupData["nametag"] = $this->fixOldData($tempGroupData["default-nametag"]);
                     unset($tempGroupData["default-nametag"]);
                 }
 
-                if(isset($tempGroupData["worlds"]))
+                $worlds = $this->stringKeyedArray($tempGroupData["worlds"] ?? null);
+                if($worlds !== [])
                 {
-                    foreach($tempGroupData["worlds"] as $worldName => $worldData)
+                    $convertedWorlds = [];
+                    foreach($worlds as $worldName => $rawWorldData)
                     {
+                        $worldData = $this->stringKeyedArray($rawWorldData);
                         if(isset($worldData["default-chat"]))
                         {
-                            $worldData["chat"] = $this->fixOldData($worldData["default-chat"]);
+                            if(is_string($worldData["default-chat"]))
+                                $worldData["chat"] = $this->fixOldData($worldData["default-chat"]);
                             unset($worldData["default-chat"]);
                         }
 
                         if(isset($worldData["default-nametag"]))
                         {
-                            $worldData["nametag"] = $this->fixOldData($worldData["default-nametag"]);
+                            if(is_string($worldData["default-nametag"]))
+                                $worldData["nametag"] = $this->fixOldData($worldData["default-nametag"]);
                             unset($worldData["default-nametag"]);
                         }
 
-                        $tempGroupData["worlds"][$worldName] = $worldData;
+                        $convertedWorlds[$worldName] = $worldData;
                     }
+                    $tempGroupData["worlds"] = $convertedWorlds;
                 }
-                $tempData["groups"][$groupName] = $tempGroupData;
+                $convertedGroups[$groupName] = $tempGroupData;
             }
+            $tempData["groups"] = $convertedGroups;
         }
         $this->config->setAll($tempData);
         $this->config->save();
         $this->config->reload();
         $this->getLogger()->notice("Upgraded PureChat config.yml to the latest version");
+    }
+
+    /**
+     * @param mixed $value
+     * @return array<string, mixed>
+     */
+    private function stringKeyedArray(mixed $value): array
+    {
+        if(!is_array($value))
+            return [];
+        $result = [];
+        foreach($value as $key => $item)
+        {
+            if(is_string($key))
+                $result[$key] = $item;
+        }
+        return $result;
     }
 
     private function fixOldData(string $string): string
@@ -256,8 +289,9 @@ class PureChat extends PluginBase
 
     public function getOriginalNametag(Player $player, ?string $WorldName = null): string
     {
-        /** @var \_64FF00\PurePerms\PPGroup $group */
         $group = $this->purePerms->getUserDataMgr()->getGroup($player, $WorldName);
+        if($group === null)
+            throw new RuntimeException("PurePerms returned no group for player");
         if($WorldName === null)
         {
         	$originalNametag = $this->config->getNested("groups." . $group->getName() . ".nametag");
@@ -421,8 +455,9 @@ class PureChat extends PluginBase
     }
     public function getOriginalChatFormat(Player $player, ?string $WorldName = null): string
     {
-        /** @var \_64FF00\PurePerms\PPGroup $group */
         $group = $this->purePerms->getUserDataMgr()->getGroup($player, $WorldName);
+        if($group === null)
+            throw new RuntimeException("PurePerms returned no group for player");
         if($WorldName === null)
         {
             $originalChatFormat = $this->config->getNested("groups." . $group->getName() . ".chat");
