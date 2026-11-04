@@ -1,11 +1,15 @@
 # PureChat
 
-PureChat is a maintained Axolotl-PM API 5 continuation that provides group-based chat formats, prefixes, suffixes, and nametags through PurePerms. This repository is maintained under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins) and keeps the original `PureChat` identity, `PurePerms` dependency, commands, permission nodes, and configuration layout.
+A maintained PureChat continuation for PocketMine-MP and Axolotl-PM API 5, with PHPStan Level Max and DevTools CI.
 
 [![CI](https://github.com/NhanAZ-Plugins/PureChat/actions/workflows/build.yml/badge.svg)](https://github.com/NhanAZ-Plugins/PureChat/actions/workflows/build.yml)
 [![Latest release](https://img.shields.io/github/v/release/NhanAZ-Plugins/PureChat)](https://github.com/NhanAZ-Plugins/PureChat/releases/latest)
-[![License](https://img.shields.io/github/license/NhanAZ-Plugins/PureChat)](LICENSE)
-[![Discord server online members](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
+[![License](https://img.shields.io/github/license/NhanAZ-Plugins/PureChat)](https://github.com/NhanAZ-Plugins/PureChat/blob/main/LICENSE)
+[![Discord](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
+
+## Overview
+
+This plugin targets the PocketMine-MP and Axolotl-PM API 5 ecosystem and is maintained under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins).
 
 ## Compatibility
 
