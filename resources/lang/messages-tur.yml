@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "tur"
+cmds:
+  setformat:
+    usage: "Kullanım: /setformat <grup> <dünya> <format>"
+    group_not_exist: "%var0% grubu mevcut değil."
+    world_not_exist: "Geçersiz dünya adı."
+    success: "Grubun sohbet formatı %var0% olarak ayarlandı."
+  setprefix:
+    player_only: "Bu komut yalnızca oyun içinde kullanılabilir."
+    usage: "Kullanım: /setprefix <önek> veya /setprefix <oyuncu> <önek>"
+    player_not_found: "%var0% oyuncusu bulunamadı."
+    success: "Önekiniz %var0% olarak ayarlandı."
+    target_success: "%var0% oyuncusunun öneki %var1% olarak ayarlandı."
+  setsuffix:
+    player_only: "Bu komut yalnızca oyun içinde kullanılabilir."
+    usage: "Kullanım: /setsuffix <sonek> veya /setsuffix <oyuncu> <sonek>"
+    player_not_found: "%var0% oyuncusu bulunamadı."
+    success: "Sonekiniz %var0% olarak ayarlandı."
+    target_success: "%var0% oyuncusunun soneki %var1% olarak ayarlandı."
+logger_messages:
+  language_selected: "PureChat dili '%var0%' olarak ayarlandı."
+  config_upgraded: "PureChat config.yml en son sürüme güncellendi."
+  invalid_nametag: "config.yml içinde geçersiz nametag bulundu (grup: %var0%). Varsayılan değer kullanılacak."
+  invalid_nametag_world: "config.yml içinde geçersiz nametag bulundu (grup: %var0%, dünya: %var1%). Varsayılan değer kullanılacak."
+  invalid_chat_format: "config.yml içinde geçersiz sohbet formatı bulundu (grup: %var0%). Varsayılan değer kullanılacak."
+  invalid_chat_format_world: "config.yml içinde geçersiz sohbet formatı bulundu (grup: %var0%, dünya: %var1%). Varsayılan değer kullanılacak."
+errors:
+  pureperms_required: "PureChat için PurePerms gereklidir."

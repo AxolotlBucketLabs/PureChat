@@ -1,6 +1,6 @@
 ---
 messages-version: "2.1.0"
-language: "vi"
+language: "vie"
 cmds:
   setformat:
     usage: "Cách dùng: /setformat <group> <world> <format>"
@@ -9,12 +9,16 @@ cmds:
     success: "Bạn đã đặt định dạng chat của group thành %var0%."
   setprefix:
     player_only: "Lệnh này chỉ có thể được sử dụng trong game."
-    usage: "Cách dùng: /setprefix <prefix>"
+    usage: "Cách dùng: /setprefix <prefix> hoặc /setprefix <player> <prefix>"
+    player_not_found: "Không tìm thấy người chơi %var0%."
     success: "Bạn đã đặt prefix của mình thành %var0%."
+    target_success: "Đã đặt prefix của %var0% thành %var1%."
   setsuffix:
     player_only: "Lệnh này chỉ có thể được sử dụng trong game."
-    usage: "Cách dùng: /setsuffix <suffix>"
+    usage: "Cách dùng: /setsuffix <suffix> hoặc /setsuffix <player> <suffix>"
+    player_not_found: "Không tìm thấy người chơi %var0%."
     success: "Bạn đã đặt suffix của mình thành %var0%."
+    target_success: "Đã đặt suffix của %var0% thành %var1%."
 logger_messages:
   language_selected: "Đã chọn ngôn ngữ PureChat là '%var0%'."
   config_upgraded: "Đã nâng cấp config.yml của PureChat lên phiên bản mới nhất."

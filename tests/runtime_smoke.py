@@ -50,7 +50,7 @@ with tempfile.TemporaryDirectory(prefix="purechat-runtime-", dir=os.environ.get(
     pureperms_data.mkdir()
     (pureperms_data / "config.yml").write_text(
         "data-provider: json\n"
-        "default-language: vi\n"
+        "default-language: vie\n"
         "disable-op: false\n"
         "enable-multiworld-perms: false\n"
         "superadmin-ranks: [\"OP\"]\n",
@@ -60,7 +60,7 @@ with tempfile.TemporaryDirectory(prefix="purechat-runtime-", dir=os.environ.get(
     purechat_data.mkdir()
     (purechat_data / "config.yml").write_text(
         "version: \"1.4.10-7\"\n"
-        "language: vi\n"
+        "language: vie\n"
         "enable-multiworld-chat: false\n"
         "groups: {}\n",
         encoding="utf-8",
@@ -136,8 +136,8 @@ with tempfile.TemporaryDirectory(prefix="purechat-runtime-", dir=os.environ.get(
         "server_ready": ready,
         "pureperms_enabled": "Enabling PurePerms v2.1.0" in content,
         "purechat_enabled": "Enabling PureChat v2.1.0" in content,
-        "pureperms_language_selected": "Đã chọn ngôn ngữ PurePerms là 'vi'." in content,
-        "purechat_language_selected": "Đã chọn ngôn ngữ PureChat là 'vi'." in content,
+        "pureperms_language_selected": "Đã chọn ngôn ngữ PurePerms là 'vie'." in content,
+        "purechat_language_selected": "Đã chọn ngôn ngữ PureChat là 'vie'." in content,
         "ppinfo": "Bạn đang sử dụng PurePerms v2.1.0 của 64FF00." in content,
         "setformat": "Bạn đã đặt định dạng chat của group thành" in content,
         "exit_code": exit_code,

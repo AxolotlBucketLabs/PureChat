@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "zho"
+cmds:
+  setformat:
+    usage: "用法：/setformat <组> <世界> <格式>"
+    group_not_exist: "组 %var0% 不存在。"
+    world_not_exist: "世界名称无效。"
+    success: "已将组的聊天格式设置为 %var0%。"
+  setprefix:
+    player_only: "此命令只能在游戏中使用。"
+    usage: "用法：/setprefix <前缀> 或 /setprefix <玩家> <前缀>"
+    player_not_found: "找不到玩家 %var0%。"
+    success: "你的前缀已设置为 %var0%。"
+    target_success: "已将 %var0% 的前缀设置为 %var1%。"
+  setsuffix:
+    player_only: "此命令只能在游戏中使用。"
+    usage: "用法：/setsuffix <后缀> 或 /setsuffix <玩家> <后缀>"
+    player_not_found: "找不到玩家 %var0%。"
+    success: "你的后缀已设置为 %var0%。"
+    target_success: "已将 %var0% 的后缀设置为 %var1%。"
+logger_messages:
+  language_selected: "PureChat 语言已设置为“%var0%”。"
+  config_upgraded: "PureChat config.yml 已更新到最新版本。"
+  invalid_nametag: "config.yml 中发现无效 nametag（组：%var0%）。将使用默认值。"
+  invalid_nametag_world: "config.yml 中发现无效 nametag（组：%var0%，世界：%var1%）。将使用默认值。"
+  invalid_chat_format: "config.yml 中发现无效聊天格式（组：%var0%）。将使用默认值。"
+  invalid_chat_format_world: "config.yml 中发现无效聊天格式（组：%var0%，世界：%var1%）。将使用默认值。"
+errors:
+  pureperms_required: "PureChat 需要 PurePerms。"

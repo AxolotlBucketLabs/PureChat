@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "ind"
+cmds:
+  setformat:
+    usage: "Penggunaan: /setformat <grup> <dunia> <format>"
+    group_not_exist: "Grup %var0% tidak ada."
+    world_not_exist: "Nama dunia tidak valid."
+    success: "Format chat grup diatur menjadi %var0%."
+  setprefix:
+    player_only: "Perintah ini hanya dapat digunakan di dalam game."
+    usage: "Penggunaan: /setprefix <prefix> atau /setprefix <pemain> <prefix>"
+    player_not_found: "Pemain %var0% tidak ditemukan."
+    success: "Prefix Anda diatur menjadi %var0%."
+    target_success: "Prefix %var0% diatur menjadi %var1%."
+  setsuffix:
+    player_only: "Perintah ini hanya dapat digunakan di dalam game."
+    usage: "Penggunaan: /setsuffix <suffix> atau /setsuffix <pemain> <suffix>"
+    player_not_found: "Pemain %var0% tidak ditemukan."
+    success: "Suffix Anda diatur menjadi %var0%."
+    target_success: "Suffix %var0% diatur menjadi %var1%."
+logger_messages:
+  language_selected: "Bahasa PureChat diatur menjadi '%var0%'."
+  config_upgraded: "config.yml PureChat diperbarui ke versi terbaru."
+  invalid_nametag: "Nametag tidak valid ditemukan di config.yml (grup: %var0%). Nilai default digunakan."
+  invalid_nametag_world: "Nametag tidak valid ditemukan di config.yml (grup: %var0%, dunia: %var1%). Nilai default digunakan."
+  invalid_chat_format: "Format chat tidak valid ditemukan di config.yml (grup: %var0%). Nilai default digunakan."
+  invalid_chat_format_world: "Format chat tidak valid ditemukan di config.yml (grup: %var0%, dunia: %var1%). Nilai default digunakan."
+errors:
+  pureperms_required: "PureChat membutuhkan PurePerms."

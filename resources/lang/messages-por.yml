@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "por"
+cmds:
+  setformat:
+    usage: "Uso: /setformat <grupo> <mundo> <formato>"
+    group_not_exist: "O grupo %var0% não existe."
+    world_not_exist: "Nome de mundo inválido."
+    success: "O formato de chat do grupo foi definido como %var0%."
+  setprefix:
+    player_only: "Este comando só pode ser usado dentro do jogo."
+    usage: "Uso: /setprefix <prefixo> ou /setprefix <jogador> <prefixo>"
+    player_not_found: "O jogador %var0% não foi encontrado."
+    success: "Seu prefixo foi definido como %var0%."
+    target_success: "O prefixo de %var0% foi definido como %var1%."
+  setsuffix:
+    player_only: "Este comando só pode ser usado dentro do jogo."
+    usage: "Uso: /setsuffix <sufixo> ou /setsuffix <jogador> <sufixo>"
+    player_not_found: "O jogador %var0% não foi encontrado."
+    success: "Seu sufixo foi definido como %var0%."
+    target_success: "O sufixo de %var0% foi definido como %var1%."
+logger_messages:
+  language_selected: "Idioma do PureChat definido como '%var0%'."
+  config_upgraded: "config.yml do PureChat foi atualizado para a versão mais recente."
+  invalid_nametag: "Nametag inválida encontrada em config.yml (grupo: %var0%). O valor padrão será usado."
+  invalid_nametag_world: "Nametag inválida encontrada em config.yml (grupo: %var0%, mundo: %var1%). O valor padrão será usado."
+  invalid_chat_format: "Formato de chat inválido encontrado em config.yml (grupo: %var0%). O valor padrão será usado."
+  invalid_chat_format_world: "Formato de chat inválido encontrado em config.yml (grupo: %var0%, mundo: %var1%). O valor padrão será usado."
+errors:
+  pureperms_required: "PureChat requer PurePerms."

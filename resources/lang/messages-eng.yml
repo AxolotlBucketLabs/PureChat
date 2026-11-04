@@ -1,6 +1,6 @@
 ---
 messages-version: "2.1.0"
-language: "en"
+language: "eng"
 cmds:
   setformat:
     usage: "Usage: /setformat <group> <world> <format>"
@@ -9,12 +9,16 @@ cmds:
     success: "You set the chat format of the group to %var0%."
   setprefix:
     player_only: "This command can only be used in-game."
-    usage: "Usage: /setprefix <prefix>"
+    usage: "Usage: /setprefix <prefix> or /setprefix <player> <prefix>"
+    player_not_found: "Player %var0% could not be found."
     success: "You set your prefix to %var0%."
+    target_success: "You set %var0%'s prefix to %var1%."
   setsuffix:
     player_only: "This command can only be used in-game."
-    usage: "Usage: /setsuffix <suffix>"
+    usage: "Usage: /setsuffix <suffix> or /setsuffix <player> <suffix>"
+    player_not_found: "Player %var0% could not be found."
     success: "You set your suffix to %var0%."
+    target_success: "You set %var0%'s suffix to %var1%."
 logger_messages:
   language_selected: "Setting PureChat language to '%var0%'."
   config_upgraded: "Upgraded PureChat config.yml to the latest version."

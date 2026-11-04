@@ -7,14 +7,31 @@
 # - string
 version: "1.4.10-7"
 
-# Language for PureChat messages
-# - en (English)
-# - vi (Vietnamese)
-language: en
+# Language for PureChat messages.
+# Language files are stored in resources/lang/ and use ISO 639-2 codes:
+# - eng: English
+# - vie: Tiếng Việt
+# - kor: 한국어
+# - rus: Русский
+# - spa: Español
+# - ukr: Українська
+# - zho: 简体中文
+# - ind: Bahasa Indonesia
+# - tur: Türkçe
+# - fra: Français
+# - por: Português
+# - deu: Deutsch
+# - jpn: 日本語
+# - ita: Italiano
+language: eng
 
 # Enable this if you want to use per-world chat formats / per-world nametags for players
 # - true / false
 enable-multiworld-chat: false
+
+# Optional faction plugin used by {fac_name} and {fac_rank}.
+# Leave null to auto-detect PiggyFactions, FactionsPro, or XeviousPE-Factions.
+default-factions-plugin: null
 
 # Please check if you have all PurePerms groups in your server here
 
@@ -28,6 +45,8 @@ enable-multiworld-chat: false
 # {prefix} Get PurePerms Prefix of the rank.
 # {suffix} Get the PurePerms Suffix of the rank.
 # {world} Get the PurePerms world the player is in.
+# {fac_name} Get the player's faction name when a supported faction plugin is installed.
+# {fac_rank} Get the player's faction role/rank when a supported faction plugin is installed.
 
 groups:
   Guest:

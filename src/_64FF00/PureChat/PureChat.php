@@ -6,6 +6,7 @@ use _64FF00\PurePerms\PPGroup;
 use _64FF00\PurePerms\PurePerms;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\player\IPlayer;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -34,6 +35,7 @@ class PureChat extends PluginBase
     private PCMessages $messages;
 
     private PurePerms $purePerms;
+    private ?FactionTagProvider $factionTags = null;
     public function getPurePerms(): PurePerms
     {
         return $this->purePerms;
@@ -51,7 +53,7 @@ class PureChat extends PluginBase
         $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
         if(!is_string($this->config->get("language")))
         {
-            $this->config->set("language", "en");
+            $this->config->set("language", "eng");
             $this->config->save();
             $this->config->reload();
         }
@@ -71,7 +73,10 @@ class PureChat extends PluginBase
     
     public function onEnable(): void
     {
+        $this->loadFactionProvider();
         $this->getServer()->getPluginManager()->registerEvents(new PCListener($this), $this);
+        if(ScoreHudIntegration::register($this))
+            $this->getLogger()->notice("ScoreHud integration enabled.");
     }
 
     /**
@@ -117,47 +122,60 @@ class PureChat extends PluginBase
                 break;
 
             case "setprefix":
-
-                if(!$sender instanceof Player)
-                {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setprefix.player_only"));
-                    return true;
-                }
-
-                if(!isset($args[0]))
-                {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setprefix.usage"));
-                    return true;
-                }
-
-                $WorldName = $this->config->get("enable-multiworld-chat") === true ? $sender->getWorld()->getDisplayName() : null;
-                $prefix = str_replace("{BLANK}", ' ', implode('', $args));
-                $this->setPrefix($prefix, $sender, $WorldName);
-                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setprefix.success", $prefix));
+            case "giveprefix":
+                $this->handlePrefixCommand($sender, $args, false);
                 break;
 
             case "setsuffix":
-
-                if(!$sender instanceof Player)
-                {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setsuffix.player_only"));
-                    return true;
-                }
-
-                if(!isset($args[0]))
-                {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setsuffix.usage"));
-                    return true;
-                }
-
-                $WorldName = $this->config->get("enable-multiworld-chat") === true ? $sender->getWorld()->getDisplayName() : null;
-                $suffix = str_replace("{BLANK}", ' ', implode('', $args));
-                $this->setSuffix($suffix, $sender, $WorldName);
-                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setsuffix.success", $suffix));
+            case "givesuffix":
+                $this->handlePrefixCommand($sender, $args, true);
                 break;
         }
 
         return true;
+    }
+
+    /** @param list<string> $args */
+    private function handlePrefixCommand(CommandSender $sender, array $args, bool $suffix): void
+    {
+        $node = $suffix ? "setsuffix" : "setprefix";
+        if(count($args) === 0 || (!$sender instanceof Player && count($args) < 2))
+        {
+            $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.$node.usage"));
+            return;
+        }
+
+        $target = $sender instanceof Player ? $sender : null;
+        $valueArgs = $args;
+        if(count($args) >= 2)
+        {
+            try
+            {
+                $target = $this->purePerms->getPlayer($args[0]);
+            }
+            catch(RuntimeException)
+            {
+                $sender->sendMessage(TextFormat::RED . self::MAIN_PREFIX . " " . $this->getMessage("cmds.$node.player_not_found", $args[0]));
+                return;
+            }
+            $valueArgs = array_slice($args, 1);
+        }
+
+        if(!$target instanceof IPlayer)
+        {
+            $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.$node.usage"));
+            return;
+        }
+
+        $worldName = $target instanceof Player && $this->config->get("enable-multiworld-chat") === true ? $target->getWorld()->getDisplayName() : null;
+        $value = str_replace("{BLANK}", ' ', implode('', $valueArgs));
+        if($suffix)
+            $this->setSuffix($value, $target, $worldName);
+        else
+            $this->setPrefix($value, $target, $worldName);
+
+        $message = $target === $sender ? $this->getMessage("cmds.$node.success", $value) : $this->getMessage("cmds.$node.target_success", $value, $target->getName());
+        $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $message);
     }
 
     private function fixOldConfig(): void
@@ -168,6 +186,8 @@ class PureChat extends PluginBase
         $tempData["enable-multiworld-chat"] = $tempData["enable-multiworld-support"] ?? false;
         if(isset($tempData["enable-multiworld-support"]))
             unset($tempData["enable-multiworld-support"]);
+        if(!array_key_exists("default-factions-plugin", $tempData))
+            $tempData["default-factions-plugin"] = null;
 
         $groups = $this->stringKeyedArray($tempData["groups"] ?? null);
         if($groups !== [])
@@ -228,6 +248,27 @@ class PureChat extends PluginBase
     public function getMessage(string $node, mixed ...$vars): string
     {
         return $this->messages->getMessage($node, ...$vars);
+    }
+
+    private function loadFactionProvider(): void
+    {
+        $configured = $this->config->get("default-factions-plugin");
+        $candidates = is_string($configured) && trim($configured) !== "" ? [trim($configured)] : ["PiggyFactions", "FactionsPro", "XeviousPE-Factions"];
+        foreach($candidates as $candidate)
+        {
+            $plugin = $this->getServer()->getPluginManager()->getPlugin($candidate);
+            if($plugin === null)
+                continue;
+            $type = strtolower($candidate);
+            $this->factionTags = FactionTagProvider::create($plugin, $type);
+            if($this->factionTags !== null)
+            {
+                $this->getLogger()->notice("Faction tag integration enabled for $candidate.");
+                return;
+            }
+        }
+        if(is_string($configured) && trim($configured) !== "")
+            $this->getLogger()->warning("Configured faction plugin '$configured' was not found or is disabled. Faction tags will be empty.");
     }
 
     /**
@@ -332,7 +373,7 @@ class PureChat extends PluginBase
         }
     }
 
-    public function getPrefix(Player $player, ?string $WorldName = null): string
+    public function getPrefix(IPlayer $player, ?string $WorldName = null): string
     {
         if($WorldName === null)
         {
@@ -348,7 +389,7 @@ class PureChat extends PluginBase
         }
     }
 
-    public function getSuffix(Player $player, ?string $WorldName = null): string
+    public function getSuffix(IPlayer $player, ?string $WorldName = null): string
     {
         if($WorldName === null)
         {
@@ -395,7 +436,7 @@ class PureChat extends PluginBase
         return true;
     }
 
-    public function setPrefix(string $prefix, Player $player, ?string $WorldName = null): bool
+    public function setPrefix(string $prefix, IPlayer $player, ?string $WorldName = null): bool
     {
         if($WorldName === null)
         {
@@ -411,7 +452,7 @@ class PureChat extends PluginBase
         return true;
     }
 
-    public function setSuffix(string $suffix, Player $player, ?string $WorldName = null): bool
+    public function setSuffix(string $suffix, IPlayer $player, ?string $WorldName = null): bool
     {
         if($WorldName === null)
         {
@@ -449,14 +490,45 @@ class PureChat extends PluginBase
         {
             $message = $this->stripColors($message);
         }
+        $factionName = "";
+        $factionRank = "";
+        if($this->factionTags !== null)
+        {
+            try
+            {
+                $factionName = $this->factionTags->getFactionName($player);
+                $factionRank = $this->factionTags->getFactionRank($player);
+            }
+            catch(\Throwable $exception)
+            {
+                $this->getLogger()->debug("Unable to resolve faction tags: " . $exception->getMessage());
+            }
+        }
         return ChatTagFormatter::format(
             $string,
             $player->getDisplayName(),
             $message,
             $WorldName ?? "",
             $this->getPrefix($player, $WorldName),
-            $this->getSuffix($player, $WorldName)
+            $this->getSuffix($player, $WorldName),
+            $factionName,
+            $factionRank
         );
+    }
+
+    public function getFactionName(Player $player): string
+    {
+        return $this->factionTags?->getFactionName($player) ?? "";
+    }
+
+    public function getFactionRank(Player $player): string
+    {
+        return $this->factionTags?->getFactionRank($player) ?? "";
+    }
+
+    public function getGroupName(Player $player, ?string $WorldName = null): string
+    {
+        return $this->purePerms->getUserDataMgr()->getGroup($player, $WorldName)?->getName() ?? "";
     }
     public function getChatFormat(Player $player, ?string $message, ?string $WorldName = null): string
     {

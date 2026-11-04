@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "kor"
+cmds:
+  setformat:
+    usage: "사용법: /setformat <그룹> <월드> <형식>"
+    group_not_exist: "%var0% 그룹이 존재하지 않습니다."
+    world_not_exist: "잘못된 월드 이름입니다."
+    success: "그룹의 채팅 형식을 %var0%로 설정했습니다."
+  setprefix:
+    player_only: "이 명령어는 게임 안에서만 사용할 수 있습니다."
+    usage: "사용법: /setprefix <접두사> 또는 /setprefix <플레이어> <접두사>"
+    player_not_found: "%var0% 플레이어를 찾을 수 없습니다."
+    success: "접두사를 %var0%로 설정했습니다."
+    target_success: "%var0% 플레이어의 접두사를 %var1%로 설정했습니다."
+  setsuffix:
+    player_only: "이 명령어는 게임 안에서만 사용할 수 있습니다."
+    usage: "사용법: /setsuffix <접미사> 또는 /setsuffix <플레이어> <접미사>"
+    player_not_found: "%var0% 플레이어를 찾을 수 없습니다."
+    success: "접미사를 %var0%로 설정했습니다."
+    target_success: "%var0% 플레이어의 접미사를 %var1%로 설정했습니다."
+logger_messages:
+  language_selected: "PureChat 언어를 '%var0%'로 설정했습니다."
+  config_upgraded: "PureChat config.yml을 최신 버전으로 업데이트했습니다."
+  invalid_nametag: "config.yml에서 잘못된 nametag를 찾았습니다 (그룹: %var0%). 기본값으로 설정합니다."
+  invalid_nametag_world: "config.yml에서 잘못된 nametag를 찾았습니다 (그룹: %var0%, 월드: %var1%). 기본값으로 설정합니다."
+  invalid_chat_format: "config.yml에서 잘못된 채팅 형식을 찾았습니다 (그룹: %var0%). 기본값으로 설정합니다."
+  invalid_chat_format_world: "config.yml에서 잘못된 채팅 형식을 찾았습니다 (그룹: %var0%, 월드: %var1%). 기본값으로 설정합니다."
+errors:
+  pureperms_required: "PureChat에는 PurePerms가 필요합니다."

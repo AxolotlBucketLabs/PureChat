@@ -10,13 +10,15 @@ final class ChatTagFormatter
         string $message,
         string $world,
         string $prefix,
-        string $suffix
+        string $suffix,
+        string $factionName = "",
+        string $factionRank = ""
     ): string {
         return strtr($format, [
             "{display_name}" => $displayName,
             "{msg}" => $message,
-            "{fac_name}" => "",
-            "{fac_rank}" => "",
+            "{fac_name}" => $factionName,
+            "{fac_rank}" => $factionRank,
             "{world}" => $world,
             "{prefix}" => $prefix,
             "{suffix}" => $suffix,

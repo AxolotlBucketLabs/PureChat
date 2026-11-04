@@ -6,6 +6,24 @@ use pocketmine\utils\Config;
 
 class PCMessages
 {
+    /** @var array<string, string> */
+    private const LANGUAGE_ALIASES = [
+        "en" => "eng",
+        "vi" => "vie",
+        "ko" => "kor",
+        "ru" => "rus",
+        "es" => "spa",
+        "uk" => "ukr",
+        "zh" => "zho",
+        "id" => "ind",
+        "tr" => "tur",
+        "fr" => "fra",
+        "pt" => "por",
+        "de" => "deu",
+        "ja" => "jpn",
+        "it" => "ita",
+    ];
+
     private PureChat $plugin;
     private Config $messages;
 
@@ -24,10 +42,11 @@ class PCMessages
         $this->langList = [];
         foreach($this->plugin->getResources() as $resource)
         {
-            $resourceName = $resource->getFilename();
-            if(preg_match('/^messages-([a-z0-9_-]+)\.yml$/i', $resourceName, $matches) === 1)
+            $resourceName = strtolower($resource->getFilename());
+            if(preg_match('/^messages-([a-z]{3})\.yml$/', $resourceName, $matches) === 1)
                 $this->langList[] = strtolower($matches[1]);
         }
+        $this->langList = array_values(array_unique($this->langList));
     }
 
     public function getMessage(string $node, mixed ...$vars): string
@@ -45,14 +64,14 @@ class PCMessages
     private function loadMessages(): void
     {
         $languageValue = $this->plugin->getthisConfig()->get("language");
-        $language = is_string($languageValue) ? strtolower(trim($languageValue)) : "en";
+        $language = is_string($languageValue) ? $this->normalizeLanguage($languageValue) : "eng";
         if(!in_array($language, $this->langList, true))
         {
             $this->plugin->getLogger()->warning("Language resource $language not found. Falling back to English.");
-            $language = "en";
+            $language = "eng";
         }
 
-        $resourceName = "messages-$language.yml";
+        $resourceName = "lang/messages-$language.yml";
         $this->plugin->saveResource($resourceName);
         $this->messages = new Config($this->plugin->getDataFolder() . $resourceName, Config::YAML);
         $this->plugin->getLogger()->info($this->getMessage("logger_messages.language_selected", $language));
@@ -60,6 +79,13 @@ class PCMessages
 
     public function reloadMessages(): void
     {
-        $this->messages->reload();
+        $this->registerLanguages();
+        $this->loadMessages();
+    }
+
+    private function normalizeLanguage(string $language): string
+    {
+        $language = strtolower(trim($language));
+        return self::LANGUAGE_ALIASES[$language] ?? $language;
     }
 }

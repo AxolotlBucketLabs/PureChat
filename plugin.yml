@@ -6,7 +6,7 @@ load: POSTWORLD
 author: ["64FF00"]
 authors: ["NhanAZ", "Vecnavium", "DemonicDev"]
 depend: [PurePerms]
-softdepend: [FactionsPro, XeviousPE-Factions]
+softdepend: [FactionsPro, XeviousPE-Factions, PiggyFactions, ScoreHud]
 commands:
   setformat:
     description: "Allows you to set default chat format of a PurePerms group"
@@ -17,9 +17,11 @@ commands:
   setprefix:
     description: "Allows you to set your PureChat prefix"
     permission: pchat.command.setprefix
+    aliases: [giveprefix]
   setsuffix:
     description: "Allows you to set your PureChat suffix"
     permission: pchat.command.setsuffix
+    aliases: [givesuffix]
 permissions:
   pchat:
     default: op

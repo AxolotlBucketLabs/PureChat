@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "jpn"
+cmds:
+  setformat:
+    usage: "使用法: /setformat <グループ> <ワールド> <フォーマット>"
+    group_not_exist: "グループ %var0% は存在しません。"
+    world_not_exist: "無効なワールド名です。"
+    success: "グループのチャット形式を %var0% に設定しました。"
+  setprefix:
+    player_only: "このコマンドはゲーム内でのみ使用できます。"
+    usage: "使用法: /setprefix <プレフィックス> または /setprefix <プレイヤー> <プレフィックス>"
+    player_not_found: "プレイヤー %var0% が見つかりません。"
+    success: "あなたのプレフィックスを %var0% に設定しました。"
+    target_success: "%var0% のプレフィックスを %var1% に設定しました。"
+  setsuffix:
+    player_only: "このコマンドはゲーム内でのみ使用できます。"
+    usage: "使用法: /setsuffix <サフィックス> または /setsuffix <プレイヤー> <サフィックス>"
+    player_not_found: "プレイヤー %var0% が見つかりません。"
+    success: "あなたのサフィックスを %var0% に設定しました。"
+    target_success: "%var0% のサフィックスを %var1% に設定しました。"
+logger_messages:
+  language_selected: "PureChat の言語を '%var0%' に設定しました。"
+  config_upgraded: "PureChat config.yml を最新バージョンに更新しました。"
+  invalid_nametag: "config.yml に無効な nametag があります（グループ: %var0%）。デフォルト値を使用します。"
+  invalid_nametag_world: "config.yml に無効な nametag があります（グループ: %var0%、ワールド: %var1%）。デフォルト値を使用します。"
+  invalid_chat_format: "config.yml に無効なチャット形式があります（グループ: %var0%）。デフォルト値を使用します。"
+  invalid_chat_format_world: "config.yml に無効なチャット形式があります（グループ: %var0%、ワールド: %var1%）。デフォルト値を使用します。"
+errors:
+  pureperms_required: "PureChat には PurePerms が必要です。"

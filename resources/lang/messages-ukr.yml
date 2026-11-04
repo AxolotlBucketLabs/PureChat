@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "ukr"
+cmds:
+  setformat:
+    usage: "Використання: /setformat <група> <світ> <формат>"
+    group_not_exist: "Група %var0% не існує."
+    world_not_exist: "Некоректна назва світу."
+    success: "Формат чату групи встановлено: %var0%."
+  setprefix:
+    player_only: "Цю команду можна використовувати лише в грі."
+    usage: "Використання: /setprefix <префікс> або /setprefix <гравець> <префікс>"
+    player_not_found: "Гравця %var0% не знайдено."
+    success: "Ваш префікс встановлено: %var0%."
+    target_success: "Префікс гравця %var0% встановлено: %var1%."
+  setsuffix:
+    player_only: "Цю команду можна використовувати лише в грі."
+    usage: "Використання: /setsuffix <суфікс> або /setsuffix <гравець> <суфікс>"
+    player_not_found: "Гравця %var0% не знайдено."
+    success: "Ваш суфікс встановлено: %var0%."
+    target_success: "Суфікс гравця %var0% встановлено: %var1%."
+logger_messages:
+  language_selected: "Мову PureChat встановлено: '%var0%'."
+  config_upgraded: "config.yml PureChat оновлено до останньої версії."
+  invalid_nametag: "У config.yml знайдено некоректний nametag (група: %var0%). Встановлено стандартне значення."
+  invalid_nametag_world: "У config.yml знайдено некоректний nametag (група: %var0%, світ: %var1%). Встановлено стандартне значення."
+  invalid_chat_format: "У config.yml знайдено некоректний формат чату (група: %var0%). Встановлено стандартне значення."
+  invalid_chat_format_world: "У config.yml знайдено некоректний формат чату (група: %var0%, світ: %var1%). Встановлено стандартне значення."
+errors:
+  pureperms_required: "Для PureChat потрібен PurePerms."

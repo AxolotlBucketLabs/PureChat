@@ -8,7 +8,7 @@ PureChat is a maintained Axolotl-PM API 5 continuation that provides group-based
 - Requires the maintained [PurePerms](https://github.com/NhanAZ-Plugins/PurePerms) plugin.
 - PHP 8.4 for the development and build toolchain.
 
-Set `language: vi` in `config.yml` to use Vietnamese messages. The default language is English (`en`).
+Set `language: vie` in `config.yml` to use Vietnamese messages. The locale files live in `resources/lang/` and use these ISO 639-2 codes: `eng`, `vie`, `kor`, `rus`, `spa`, `ukr`, `zho`, `ind`, `tur`, `fra`, `por`, `deu`, `jpn`, and `ita`. English (`eng`) is the default.
 
 The maintained baseline is `2.1.0`. CI produces a PHAR artifact for every push and pull request; it does not publish a GitHub release automatically.
 
@@ -19,8 +19,10 @@ See [UPSTREAM.md](UPSTREAM.md) for provenance and compatibility policy, and [CHA
 
 Command | Description | Permission
 --- | --- | ---
-`/setsuffix <suffix>` | Set your suffix in-game. | pchat.command.setsuffix
-`/setprefix <prefix>` | Set your prefix in-game. | pchat.command.setprefix
+`/setsuffix <suffix>` | Set your own suffix; use `{BLANK}` for spaces. | pchat.command.setsuffix
+`/setprefix <prefix>` | Set your own prefix; use `{BLANK}` for spaces. | pchat.command.setprefix
+`/setsuffix <player> <suffix>` | Set another player's suffix; `/givesuffix` is an alias. | pchat.command.setsuffix
+`/setprefix <player> <prefix>` | Set another player's prefix; `/giveprefix` is an alias. | pchat.command.setprefix
 `/setnametag <group> <world> <format>` | Set the default nametag of a group | pchat.command.setnametag
 `/setformat <group> <world> <format>` | Set default chat format | pchat.command.setformat
 
@@ -34,6 +36,14 @@ You need to set 'pchat.coloredMessages' permission for the players if you want t
 **What are the colour codes to use, and where should I put them?**
 
 See the available colour codes listed in the Config. Do not use colour codes in PurePerms groups directly; use PureChat config instead.
+
+**How do faction tags work?**
+
+Set `default-factions-plugin: PiggyFactions` in `config.yml`, or leave it `null` for auto-detection. The optional integration provides `{fac_name}` and `{fac_rank}`. PureChat also recognizes the legacy FactionsPro and XeviousPE-Factions adapters.
+
+**How do I use ScoreHud tags?**
+
+ScoreHud is optional. When it is installed, PureChat resolves `purechat.prefix`, `purechat.suffix`, `pureperms.group`, `pureperms.rank`, `purechat.faction_name`, and `purechat.faction_rank` through ScoreHud's tag event.
 
 # Permissions
 

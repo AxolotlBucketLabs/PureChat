@@ -1,0 +1,30 @@
+---
+messages-version: "2.1.0"
+language: "rus"
+cmds:
+  setformat:
+    usage: "Использование: /setformat <группа> <мир> <формат>"
+    group_not_exist: "Группа %var0% не существует."
+    world_not_exist: "Недопустимое имя мира."
+    success: "Формат чата группы изменён на %var0%."
+  setprefix:
+    player_only: "Эту команду можно использовать только в игре."
+    usage: "Использование: /setprefix <префикс> или /setprefix <игрок> <префикс>"
+    player_not_found: "Игрок %var0% не найден."
+    success: "Ваш префикс установлен: %var0%."
+    target_success: "Префикс игрока %var0% установлен: %var1%."
+  setsuffix:
+    player_only: "Эту команду можно использовать только в игре."
+    usage: "Использование: /setsuffix <суффикс> или /setsuffix <игрок> <суффикс>"
+    player_not_found: "Игрок %var0% не найден."
+    success: "Ваш суффикс установлен: %var0%."
+    target_success: "Суффикс игрока %var0% установлен: %var1%."
+logger_messages:
+  language_selected: "Язык PureChat установлен: '%var0%'."
+  config_upgraded: "config.yml PureChat обновлён до последней версии."
+  invalid_nametag: "В config.yml найден некорректный nametag (группа: %var0%). Установлено значение по умолчанию."
+  invalid_nametag_world: "В config.yml найден некорректный nametag (группа: %var0%, мир: %var1%). Установлено значение по умолчанию."
+  invalid_chat_format: "В config.yml найден некорректный формат чата (группа: %var0%). Установлено значение по умолчанию."
+  invalid_chat_format_world: "В config.yml найден некорректный формат чата (группа: %var0%, мир: %var1%). Установлено значение по умолчанию."
+errors:
+  pureperms_required: "Для PureChat требуется PurePerms."
