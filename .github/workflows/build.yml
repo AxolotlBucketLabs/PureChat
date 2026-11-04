@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: NhanAZ-Plugins/PurePerms
-          ref: 0334bdafcc2bf920e0217529a6f31609d6d6559a # maintained API 5 baseline
+          ref: dcd9fa94dbc5921fde242bd4275a5a1b3981fc8b # maintained API 5 baseline with Vietnamese localization
           path: .devtools-dependencies/PurePerms
           persist-credentials: false
 

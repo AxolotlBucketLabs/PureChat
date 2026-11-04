@@ -1,0 +1,26 @@
+---
+messages-version: "2.1.0"
+language: "en"
+cmds:
+  setformat:
+    usage: "Usage: /setformat <group> <world> <format>"
+    group_not_exist: "Group %var0% does not exist."
+    world_not_exist: "Invalid world name."
+    success: "You set the chat format of the group to %var0%."
+  setprefix:
+    player_only: "This command can only be used in-game."
+    usage: "Usage: /setprefix <prefix>"
+    success: "You set your prefix to %var0%."
+  setsuffix:
+    player_only: "This command can only be used in-game."
+    usage: "Usage: /setsuffix <suffix>"
+    success: "You set your suffix to %var0%."
+logger_messages:
+  language_selected: "Setting PureChat language to '%var0%'."
+  config_upgraded: "Upgraded PureChat config.yml to the latest version."
+  invalid_nametag: "Invalid nametag found in config.yml (Group: %var0%). Setting it to the default value."
+  invalid_nametag_world: "Invalid nametag found in config.yml (Group: %var0%, World: %var1%). Setting it to the default value."
+  invalid_chat_format: "Invalid chat format found in config.yml (Group: %var0%). Setting it to the default value."
+  invalid_chat_format_world: "Invalid chat format found in config.yml (Group: %var0%, World: %var1%). Setting it to the default value."
+errors:
+  pureperms_required: "PurePerms is required by PureChat."

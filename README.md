@@ -8,6 +8,8 @@ PureChat is a maintained Axolotl-PM API 5 continuation that provides group-based
 - Requires the maintained [PurePerms](https://github.com/NhanAZ-Plugins/PurePerms) plugin.
 - PHP 8.4 for the development and build toolchain.
 
+Set `language: vi` in `config.yml` to use Vietnamese messages. The default language is English (`en`).
+
 The maintained baseline is `2.1.0`. CI produces a PHAR artifact for every push and pull request; it does not publish a GitHub release automatically.
 
 See [UPSTREAM.md](UPSTREAM.md) for provenance and compatibility policy, and [CHANGELOG.md](CHANGELOG.md) for maintained changes.

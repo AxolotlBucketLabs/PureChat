@@ -46,6 +46,25 @@ with tempfile.TemporaryDirectory(prefix="purechat-runtime-", dir=os.environ.get(
     plugins.mkdir()
     shutil.copy2(pureperms, plugins / "PurePerms.phar")
     shutil.copy2(purechat, plugins / "PureChat.phar")
+    pureperms_data = plugins / "PurePerms"
+    pureperms_data.mkdir()
+    (pureperms_data / "config.yml").write_text(
+        "data-provider: json\n"
+        "default-language: vi\n"
+        "disable-op: false\n"
+        "enable-multiworld-perms: false\n"
+        "superadmin-ranks: [\"OP\"]\n",
+        encoding="utf-8",
+    )
+    purechat_data = plugins / "PureChat"
+    purechat_data.mkdir()
+    (purechat_data / "config.yml").write_text(
+        "version: \"1.4.10-7\"\n"
+        "language: vi\n"
+        "enable-multiworld-chat: false\n"
+        "groups: {}\n",
+        encoding="utf-8",
+    )
     (data / "server.properties").write_text(
         "language=eng\nserver-ip=127.0.0.1\nserver-port=0\nenable-ipv6=off\n"
         "enable-query=off\nxbox-auth=off\nlevel-type=FLAT\nview-distance=2\nmax-players=1\n",
@@ -117,8 +136,10 @@ with tempfile.TemporaryDirectory(prefix="purechat-runtime-", dir=os.environ.get(
         "server_ready": ready,
         "pureperms_enabled": "Enabling PurePerms v2.1.0" in content,
         "purechat_enabled": "Enabling PureChat v2.1.0" in content,
-        "ppinfo": "You are currently using PurePerms v2.1.0" in content,
-        "setformat": "You set the chat format of the group" in content,
+        "pureperms_language_selected": "Đã chọn ngôn ngữ PurePerms là 'vi'." in content,
+        "purechat_language_selected": "Đã chọn ngôn ngữ PureChat là 'vi'." in content,
+        "ppinfo": "Bạn đang sử dụng PurePerms v2.1.0 của 64FF00." in content,
+        "setformat": "Bạn đã đặt định dạng chat của group thành" in content,
         "exit_code": exit_code,
         "errors": errors,
     }
@@ -127,6 +148,8 @@ with tempfile.TemporaryDirectory(prefix="purechat-runtime-", dir=os.environ.get(
         not ready
         or not evidence["pureperms_enabled"]
         or not evidence["purechat_enabled"]
+        or not evidence["pureperms_language_selected"]
+        or not evidence["purechat_language_selected"]
         or not evidence["ppinfo"]
         or not evidence["setformat"]
         or exit_code != 0

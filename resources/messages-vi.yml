@@ -1,0 +1,26 @@
+---
+messages-version: "2.1.0"
+language: "vi"
+cmds:
+  setformat:
+    usage: "Cách dùng: /setformat <group> <world> <format>"
+    group_not_exist: "Group %var0% không tồn tại."
+    world_not_exist: "Tên thế giới không hợp lệ."
+    success: "Bạn đã đặt định dạng chat của group thành %var0%."
+  setprefix:
+    player_only: "Lệnh này chỉ có thể được sử dụng trong game."
+    usage: "Cách dùng: /setprefix <prefix>"
+    success: "Bạn đã đặt prefix của mình thành %var0%."
+  setsuffix:
+    player_only: "Lệnh này chỉ có thể được sử dụng trong game."
+    usage: "Cách dùng: /setsuffix <suffix>"
+    success: "Bạn đã đặt suffix của mình thành %var0%."
+logger_messages:
+  language_selected: "Đã chọn ngôn ngữ PureChat là '%var0%'."
+  config_upgraded: "Đã nâng cấp config.yml của PureChat lên phiên bản mới nhất."
+  invalid_nametag: "Phát hiện nametag không hợp lệ trong config.yml (Group: %var0%). Đang đặt lại giá trị mặc định."
+  invalid_nametag_world: "Phát hiện nametag không hợp lệ trong config.yml (Group: %var0%, World: %var1%). Đang đặt lại giá trị mặc định."
+  invalid_chat_format: "Phát hiện định dạng chat không hợp lệ trong config.yml (Group: %var0%). Đang đặt lại giá trị mặc định."
+  invalid_chat_format_world: "Phát hiện định dạng chat không hợp lệ trong config.yml (Group: %var0%, World: %var1%). Đang đặt lại giá trị mặc định."
+errors:
+  pureperms_required: "PurePerms là plugin bắt buộc đối với PureChat."

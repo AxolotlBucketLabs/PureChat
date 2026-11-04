@@ -7,6 +7,11 @@
 # - string
 version: "1.4.10-7"
 
+# Language for PureChat messages
+# - en (English)
+# - vi (Vietnamese)
+language: en
+
 # Enable this if you want to use per-world chat formats / per-world nametags for players
 # - true / false
 enable-multiworld-chat: false

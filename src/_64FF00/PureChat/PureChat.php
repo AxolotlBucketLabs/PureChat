@@ -31,6 +31,8 @@ class PureChat extends PluginBase
 
     private Config $config;
 
+    private PCMessages $messages;
+
     private PurePerms $purePerms;
     public function getPurePerms(): PurePerms
     {
@@ -47,6 +49,13 @@ class PureChat extends PluginBase
     {
         $this->saveDefaultConfig();
         $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        if(!is_string($this->config->get("language")))
+        {
+            $this->config->set("language", "en");
+            $this->config->save();
+            $this->config->reload();
+        }
+        $this->messages = new PCMessages($this);
         if(!$this->config->get("version"))
         {
             $version = $this->getDescription()->getVersion();
@@ -56,7 +65,7 @@ class PureChat extends PluginBase
 
         $purePerms = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
         if(!$purePerms instanceof PurePerms)
-            throw new RuntimeException("PurePerms is required by PureChat");
+            throw new RuntimeException($this->getMessage("errors.pureperms_required"));
         $this->purePerms = $purePerms;
     }
     
@@ -78,7 +87,7 @@ class PureChat extends PluginBase
 
                 if(count($args) < 3)
                 {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " Usage: /setformat <group> <world> <format>");
+                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setformat.usage"));
                     return true;
                 }
 
@@ -86,7 +95,7 @@ class PureChat extends PluginBase
 
                 if($group === null)
                 {
-                    $sender->sendMessage(TextFormat::RED . self::MAIN_PREFIX . " Group " . $args[0] . "does NOT exist.");
+                    $sender->sendMessage(TextFormat::RED . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setformat.group_not_exist", $args[0]));
 
                     return true;
                 }
@@ -95,7 +104,7 @@ class PureChat extends PluginBase
                 {
                     $World = $this->getServer()->getWorldManager()->getWorldByName($args[1]);
                     if ($World === null) {
-                        $sender->sendMessage(TextFormat::RED . self::MAIN_PREFIX . " Invalid World Name!");
+                        $sender->sendMessage(TextFormat::RED . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setformat.world_not_exist"));
                         return true;
                     }
 
@@ -104,47 +113,47 @@ class PureChat extends PluginBase
 
                 $chatFormat = implode(" ", array_slice($args, 2));
                 $this->setOriginalChatFormat($group, $chatFormat, $WorldName);
-                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " You set the chat format of the group to " . $chatFormat . ".");
+                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setformat.success", $chatFormat));
                 break;
 
             case "setprefix":
 
                 if(!$sender instanceof Player)
                 {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " This command can be only used in-game.");
+                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setprefix.player_only"));
                     return true;
                 }
 
                 if(!isset($args[0]))
                 {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " Usage: /setprefix <prefix>");
+                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setprefix.usage"));
                     return true;
                 }
 
                 $WorldName = $this->config->get("enable-multiworld-chat") === true ? $sender->getWorld()->getDisplayName() : null;
                 $prefix = str_replace("{BLANK}", ' ', implode('', $args));
                 $this->setPrefix($prefix, $sender, $WorldName);
-                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " You set your prefix to " . $prefix . ".");
+                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setprefix.success", $prefix));
                 break;
 
             case "setsuffix":
 
                 if(!$sender instanceof Player)
                 {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " This command can be only used in-game.");
+                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setsuffix.player_only"));
                     return true;
                 }
 
                 if(!isset($args[0]))
                 {
-                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " Usage: /setsuffix <suffix>");
+                    $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setsuffix.usage"));
                     return true;
                 }
 
                 $WorldName = $this->config->get("enable-multiworld-chat") === true ? $sender->getWorld()->getDisplayName() : null;
                 $suffix = str_replace("{BLANK}", ' ', implode('', $args));
                 $this->setSuffix($suffix, $sender, $WorldName);
-                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " You set your suffix to " . $suffix . ".");
+                $sender->sendMessage(TextFormat::GREEN . self::MAIN_PREFIX . " " . $this->getMessage("cmds.setsuffix.success", $suffix));
                 break;
         }
 
@@ -213,7 +222,12 @@ class PureChat extends PluginBase
         $this->config->setAll($tempData);
         $this->config->save();
         $this->config->reload();
-        $this->getLogger()->notice("Upgraded PureChat config.yml to the latest version");
+        $this->getLogger()->notice($this->getMessage("logger_messages.config_upgraded"));
+    }
+
+    public function getMessage(string $node, mixed ...$vars): string
+    {
+        return $this->messages->getMessage($node, ...$vars);
     }
 
     /**
@@ -297,7 +311,7 @@ class PureChat extends PluginBase
         	$originalNametag = $this->config->getNested("groups." . $group->getName() . ".nametag");
             if(!is_string($originalNametag))
             {
-                $this->getLogger()->critical("Invalid nametag found in config.yml (Group: " . $group->getName() . ") / Setting it to default value.");
+                $this->getLogger()->critical($this->getMessage("logger_messages.invalid_nametag", $group->getName()));
                 $this->config->setNested("groups." . $group->getName() . ".nametag", $originalNametag = "&8&l[" . $group->getName() . "]&f&r {display_name}");
                 $this->config->save();
                 $this->config->reload();
@@ -309,7 +323,7 @@ class PureChat extends PluginBase
         	$originalNametag = $this->config->getNested("groups." . $group->getName() . "worlds.$WorldName.nametag");
             if(!is_string(($originalNametag)))
             {
-                $this->getLogger()->critical("Invalid nametag found in config.yml (Group: " . $group->getName() . ", WorldName = $WorldName) / Setting it to default value.");
+                $this->getLogger()->critical($this->getMessage("logger_messages.invalid_nametag_world", $group->getName(), $WorldName));
                 $this->config->setNested("groups." . $group->getName() . "worlds.$WorldName.nametag", $originalNametag = "&8&l[" . $group->getName() . "]&f&r {display_name}");
                 $this->config->save();
                 $this->config->reload();
@@ -463,7 +477,7 @@ class PureChat extends PluginBase
             $originalChatFormat = $this->config->getNested("groups." . $group->getName() . ".chat");
             if(!is_string($originalChatFormat))
             {
-                $this->getLogger()->critical("Invalid chat format found in config.yml (Group: " . $group->getName() . ") / Setting it to default value.");
+                $this->getLogger()->critical($this->getMessage("logger_messages.invalid_chat_format", $group->getName()));
                 $this->config->setNested("groups." . $group->getName() . ".chat", $originalChatFormat = "&8&l[" . $group->getName() . "]&f&r {display_name} &7> {msg}");
                 $this->config->save();
                 $this->config->reload();
@@ -476,7 +490,7 @@ class PureChat extends PluginBase
             $originalChatFormat = $this->config->getNested("groups." . $group->getName() . "worlds.$WorldName.chat");
             if(!is_string($originalChatFormat))
             {
-                $this->getLogger()->critical("Invalid chat format found in config.yml (Group: " . $group->getName() . ", WorldName = $WorldName) / Setting it to default value.");
+                $this->getLogger()->critical($this->getMessage("logger_messages.invalid_chat_format_world", $group->getName(), $WorldName));
                 $this->config->setNested("groups." . $group->getName() . "worlds.$WorldName.chat", $originalChatFormat = "&8&l[" . $group->getName() . "]&f&r {display_name} &7> {msg}");
                 $this->config->save();
                 $this->config->reload();
