@@ -320,11 +320,11 @@ class PureChat extends PluginBase
         }
         else
         {
-        	$originalNametag = $this->config->getNested("groups." . $group->getName() . "worlds.$WorldName.nametag");
+            $originalNametag = $this->config->getNested("groups." . $group->getName() . ".worlds.$WorldName.nametag");
             if(!is_string(($originalNametag)))
             {
                 $this->getLogger()->critical($this->getMessage("logger_messages.invalid_nametag_world", $group->getName(), $WorldName));
-                $this->config->setNested("groups." . $group->getName() . "worlds.$WorldName.nametag", $originalNametag = "&8&l[" . $group->getName() . "]&f&r {display_name}");
+                $this->config->setNested("groups." . $group->getName() . ".worlds.$WorldName.nametag", $originalNametag = "&8&l[" . $group->getName() . "]&f&r {display_name}");
                 $this->config->save();
                 $this->config->reload();
             }
@@ -373,7 +373,7 @@ class PureChat extends PluginBase
         }
         else
         {
-            $this->config->setNested("groups." . $group->getName() . "worlds.$WorldName.chat", $chatFormat);
+            $this->config->setNested("groups." . $group->getName() . ".worlds.$WorldName.chat", $chatFormat);
         }
         $this->config->save();
         $this->config->reload();
@@ -388,7 +388,7 @@ class PureChat extends PluginBase
         }
         else
         {
-            $this->config->setNested("groups." . $group->getName() . "worlds.$WorldName.nametag", $nameTag);
+            $this->config->setNested("groups." . $group->getName() . ".worlds.$WorldName.nametag", $nameTag);
         }
         $this->config->save();
         $this->config->reload();
@@ -439,26 +439,24 @@ class PureChat extends PluginBase
 
     public function applyPCTags(string $string, Player $player, ?string $message, ?string $WorldName): string
     {
-        // TODO
-        $string = str_replace("{display_name}", $player->getDisplayName(), $string);
         if($message === null)
             $message = "";
         if($player->hasPermission("pchat.coloredMessages"))
         {
-            $string = str_replace("{msg}", $this->applyColors($message), $string);
+            $message = $this->applyColors($message);
         }
         else
         {
-            $string = str_replace("{msg}", $this->stripColors($message), $string);
+            $message = $this->stripColors($message);
         }
-        {
-            $string = str_replace("{fac_name}", '', $string);
-            $string = str_replace("{fac_rank}", '', $string);
-        }
-        $string = str_replace("{world}", ($WorldName === null ? "" : $WorldName), $string);
-        $string = str_replace("{prefix}", $this->getPrefix($player, $WorldName), $string);
-        $string = str_replace("{suffix}", $this->getSuffix($player, $WorldName), $string);
-        return $string;
+        return ChatTagFormatter::format(
+            $string,
+            $player->getDisplayName(),
+            $message,
+            $WorldName ?? "",
+            $this->getPrefix($player, $WorldName),
+            $this->getSuffix($player, $WorldName)
+        );
     }
     public function getChatFormat(Player $player, ?string $message, ?string $WorldName = null): string
     {
@@ -487,11 +485,11 @@ class PureChat extends PluginBase
         }
         else
         {
-            $originalChatFormat = $this->config->getNested("groups." . $group->getName() . "worlds.$WorldName.chat");
+            $originalChatFormat = $this->config->getNested("groups." . $group->getName() . ".worlds.$WorldName.chat");
             if(!is_string($originalChatFormat))
             {
                 $this->getLogger()->critical($this->getMessage("logger_messages.invalid_chat_format_world", $group->getName(), $WorldName));
-                $this->config->setNested("groups." . $group->getName() . "worlds.$WorldName.chat", $originalChatFormat = "&8&l[" . $group->getName() . "]&f&r {display_name} &7> {msg}");
+                $this->config->setNested("groups." . $group->getName() . ".worlds.$WorldName.chat", $originalChatFormat = "&8&l[" . $group->getName() . "]&f&r {display_name} &7> {msg}");
                 $this->config->save();
                 $this->config->reload();
             }
