@@ -1,9 +1,6 @@
-<p align="center">
-    <img src="863.png" alt="PureChat icon" width="128" /><br>
-    <b>PureChat continuation for Axolotl-PM API 5.</b>
-</p>
+# PureChat
 
-PureChat provides group-based chat formats, prefixes, suffixes, and nametags through PurePerms. This repository is the maintained API 5 continuation under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins). It keeps the original `PureChat` identity, `PurePerms` dependency, commands, permission nodes, and configuration layout.
+PureChat is a maintained Axolotl-PM API 5 continuation that provides group-based chat formats, prefixes, suffixes, and nametags through PurePerms. This repository is maintained under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins) and keeps the original `PureChat` identity, `PurePerms` dependency, commands, permission nodes, and configuration layout.
 
 ## Compatibility
 
