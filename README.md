@@ -2,6 +2,11 @@
 
 PureChat is a maintained Axolotl-PM API 5 continuation that provides group-based chat formats, prefixes, suffixes, and nametags through PurePerms. This repository is maintained under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins) and keeps the original `PureChat` identity, `PurePerms` dependency, commands, permission nodes, and configuration layout.
 
+[![CI](https://github.com/NhanAZ-Plugins/PureChat/actions/workflows/build.yml/badge.svg)](https://github.com/NhanAZ-Plugins/PureChat/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/NhanAZ-Plugins/PureChat)](https://github.com/NhanAZ-Plugins/PureChat/releases/latest)
+[![License](https://img.shields.io/github/license/NhanAZ-Plugins/PureChat)](LICENSE)
+[![Discord server online members](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
+
 ## Compatibility
 
 - Axolotl-PM API 5 (`api: [5.0.0]`), tested against the pinned 5.51.1 source in CI.
