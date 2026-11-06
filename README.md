@@ -1,72 +1,52 @@
 # PureChat
 
-A maintained PureChat continuation for PocketMine-MP and Axolotl-PM API 5, with PHPStan Level Max and DevTools CI.
+PureChat formats player chat, prefixes, suffixes and nametags for PocketMine-MP and Axolotl-PM API 5 servers.
 
-[![CI](https://github.com/AxolotlBucketLabs/PureChat/actions/workflows/build.yml/badge.svg)](https://github.com/AxolotlBucketLabs/PureChat/actions/workflows/build.yml)
-[![Latest release](https://img.shields.io/github/v/release/AxolotlBucketLabs/PureChat)](https://github.com/AxolotlBucketLabs/PureChat/releases/latest)
-[![License](https://img.shields.io/github/license/AxolotlBucketLabs/PureChat)](https://github.com/AxolotlBucketLabs/PureChat/blob/main/LICENSE)
-[![Discord](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
-
+[![CI](https://github.com/AxolotlBucketLabs/PureChat/actions/workflows/build.yml/badge.svg)](https://github.com/AxolotlBucketLabs/PureChat/actions/workflows/build.yml) [![Latest release](https://img.shields.io/github/v/release/AxolotlBucketLabs/PureChat)](https://github.com/AxolotlBucketLabs/PureChat/releases/latest) [![License](https://img.shields.io/github/license/AxolotlBucketLabs/PureChat)](LICENSE) [![Discord](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
 
 ## Compatibility
 
-- Axolotl-PM API 5 (`api: [5.0.0]`), tested against the pinned 5.51.1 source in CI.
-- Requires the maintained [PurePerms](https://github.com/AxolotlBucketLabs/PurePerms) plugin.
-- PHP 8.4 for the development and build toolchain.
+- The plugin targets API 5 and is tested against Axolotl-PM 5.51.1 in CI.
+- PHP 8.4 is used by the development and build workflow.
+- PurePerms is required.
+- FactionsPro, XeviousPE-Factions, PiggyFactions and ScoreHud are optional integrations.
 
-Set `language: vie` in `config.yml` to use Vietnamese messages. The locale files live in `resources/lang/` and use these ISO 639-2 codes: `eng`, `vie`, `kor`, `rus`, `spa`, `ukr`, `zho`, `ind`, `tur`, `fra`, `por`, `deu`, `jpn`, and `ita`. English (`eng`) is the default.
+## Installation
 
-The maintained baseline is `2.1.0`. CI produces a PHAR artifact for every push and pull request; it does not publish a GitHub release automatically.
+1. Download the `PureChat.phar` file from the [latest release](https://github.com/AxolotlBucketLabs/PureChat/releases/latest).
+2. Install PurePerms in the same server.
+3. Copy both PHAR files to the server's `plugins/` directory.
+4. Start the server and edit `plugin_data/PureChat/config.yml`.
 
-See [UPSTREAM.md](UPSTREAM.md) for provenance and compatibility policy, and [CHANGELOG.md](CHANGELOG.md) for maintained changes.
+PureChat creates its configuration on the first start. Set `language: vie` to use the Vietnamese translation. The available locale files are in `resources/lang/`.
 
+## Commands
 
-# Commands
+| Command | Description | Permission |
+| --- | --- | --- |
+| `/setsuffix <suffix>` | Set your own suffix. Use `{BLANK}` for spaces. | `pchat.command.setsuffix` |
+| `/setsuffix <player> <suffix>` | Set another player's suffix. `/givesuffix` is an alias. | `pchat.command.setsuffix` |
+| `/setprefix <prefix>` | Set your own prefix. Use `{BLANK}` for spaces. | `pchat.command.setprefix` |
+| `/setprefix <player> <prefix>` | Set another player's prefix. `/giveprefix` is an alias. | `pchat.command.setprefix` |
+| `/setnametag <group> <world> <format>` | Set a group's default nametag. | `pchat.command.setnametag` |
+| `/setformat <group> <world> <format>` | Set a group's default chat format. | `pchat.command.setformat` |
 
-Command | Description | Permission
---- | --- | ---
-`/setsuffix <suffix>` | Set your own suffix; use `{BLANK}` for spaces. | pchat.command.setsuffix
-`/setprefix <prefix>` | Set your own prefix; use `{BLANK}` for spaces. | pchat.command.setprefix
-`/setsuffix <player> <suffix>` | Set another player's suffix; `/givesuffix` is an alias. | pchat.command.setsuffix
-`/setprefix <player> <prefix>` | Set another player's prefix; `/giveprefix` is an alias. | pchat.command.setprefix
-`/setnametag <group> <world> <format>` | Set the default nametag of a group | pchat.command.setnametag
-`/setformat <group> <world> <format>` | Set default chat format | pchat.command.setformat
+## Integrations
 
+Set `default-factions-plugin` in `config.yml` to select a faction provider, or leave it `null` for auto-detection. PureChat supports the legacy FactionsPro and XeviousPE-Factions adapters as well as PiggyFactions.
 
-# FAQ
-
-**Why can't players have coloured chat?**
-
-You need to set 'pchat.coloredMessages' permission for the players if you want to allow them to use colored messages
-
-**What are the colour codes to use, and where should I put them?**
-
-See the available colour codes listed in the Config. Do not use colour codes in PurePerms groups directly; use PureChat config instead.
-
-**How do faction tags work?**
-
-Set `default-factions-plugin: PiggyFactions` in `config.yml`, or leave it `null` for auto-detection. The optional integration provides `{fac_name}` and `{fac_rank}`. PureChat also recognizes the legacy FactionsPro and XeviousPE-Factions adapters.
-
-**How do I use ScoreHud tags?**
-
-ScoreHud is optional. When it is installed, PureChat resolves `purechat.prefix`, `purechat.suffix`, `pureperms.group`, `pureperms.rank`, `purechat.faction_name`, and `purechat.faction_rank` through ScoreHud's tag event.
-
-# Permissions
-
- - pchat
- - pchat.coloredMessages
- - pchat.command
- - pchat.command.setsuffix
- - pchat.command.setprefix
- - pchat.command.setnametag
- - pchat.command.setformat
+When ScoreHud is installed, PureChat exposes `purechat.prefix`, `purechat.suffix`, `pureperms.group`, `pureperms.rank`, `purechat.faction_name` and `purechat.faction_rank` through its tag event.
 
 ## Build locally
 
-The repository uses [AxolotlBucketLabs/DevTools](https://github.com/AxolotlBucketLabs/DevTools) for reproducible PHAR builds and PHPStan Level Max analysis. A local build from the workspace can be run with:
+The repository uses [AxolotlBucketLabs DevTools](https://github.com/AxolotlBucketLabs/DevTools) for PHAR packaging and PHPStan level max analysis. The local build requires a checkout of PurePerms and an Axolotl-PM source tree, as shown in the workflow.
 
 ```powershell
 php -d phar.readonly=0 .tooling/DevTools/bin/devtools.php build --project=. --out=build --overwrite --json
 ```
 
-The PHPStan configuration also needs the PurePerms source and an Axolotl-PM checkout, as shown in CI.
+The build workflow produces a PHAR artifact for each push and pull request. It does not publish a GitHub release automatically.
+
+## Provenance
+
+See [UPSTREAM.md](UPSTREAM.md) for the original project, retained attribution and compatibility policy. See [CHANGELOG.md](CHANGELOG.md) for maintained changes.

@@ -14,11 +14,11 @@ The API 5 fork is used as a reference for the manifest and chat-event migration.
 
 PureChat targets Axolotl-PM API 5 and depends on the maintained PurePerms plugin. The manifest intentionally remains `PureChat` with the original namespace, command names, permission nodes, and `PurePerms` dependency.
 
-Changes should preserve:
+Changes should preserve the following contracts:
 
-- `resources/config.yml` and its migration behavior;
-- chat format, prefix, suffix, nametag, and multi-world settings;
-- public method names used by server plugins and the PurePerms event bridge.
+- Preserve `resources/config.yml` and its migration behavior.
+- Preserve chat format, prefix, suffix, nametag, and multi-world settings.
+- Preserve public method names used by server plugins and the PurePerms event bridge.
 
 ## Build and release policy
 
