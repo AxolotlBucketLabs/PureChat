@@ -5,8 +5,8 @@
 - Original project: [poggit-orphanage/PureChat](https://github.com/poggit-orphanage/PureChat).
 - Archived plugin page: [Poggit Archive PureChat](https://poggit-archive.github.io/plugins/204-purechat/).
 - API 5 reference port: [DemonicDev/PureChat](https://github.com/DemonicDev/PureChat).
-- Maintained dependency: [NhanAZ-Plugins/PurePerms](https://github.com/NhanAZ-Plugins/PurePerms).
-- Maintained repository: [NhanAZ-Plugins/PureChat](https://github.com/NhanAZ-Plugins/PureChat).
+- Maintained dependency: [AxolotlBucketLabs/PurePerms](https://github.com/AxolotlBucketLabs/PurePerms).
+- Maintained repository: [AxolotlBucketLabs/PureChat](https://github.com/AxolotlBucketLabs/PureChat).
 
 The API 5 fork is used as a reference for the manifest and chat-event migration. This repository does not rename the plugin to a fork-specific identity and does not copy unrelated reworks that change commands, permissions, or configuration semantics.
 

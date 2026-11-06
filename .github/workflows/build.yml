@@ -25,7 +25,7 @@ jobs:
       - name: Check out pinned PurePerms source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: NhanAZ-Plugins/PurePerms
+          repository: AxolotlBucketLabs/PurePerms
           ref: 7cfa32af6ebf263f2369e0ee5da06781e72c2fa1 # PurePerms v2.1.0 maintained baseline with PHP 8.4-compatible MySQL checks
           path: .devtools-dependencies/PurePerms
           persist-credentials: false
@@ -68,7 +68,7 @@ jobs:
 
       - name: Analyze and build pinned PurePerms PHAR
         id: pureperms
-        uses: NhanAZ/DevTools@8b7db655845dc5d9e5e51b26a5d0815d5f7e5323 # v2.1.1
+        uses: AxolotlBucketLabs/DevTools@04fd726101109739bf1fd629dbe8499d3e2864bb # v3.0.0
         with:
           project: .devtools-dependencies/PurePerms
           output: build-pureperms
@@ -77,7 +77,7 @@ jobs:
 
       - name: Analyze and build with DevTools
         id: build
-        uses: NhanAZ/DevTools@8b7db655845dc5d9e5e51b26a5d0815d5f7e5323 # v2.1.1
+        uses: AxolotlBucketLabs/DevTools@04fd726101109739bf1fd629dbe8499d3e2864bb # v3.0.0
         with:
           project: .
           output: build

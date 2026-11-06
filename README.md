@@ -2,16 +2,16 @@
 
 A maintained PureChat continuation for PocketMine-MP and Axolotl-PM API 5, with PHPStan Level Max and DevTools CI.
 
-[![CI](https://github.com/NhanAZ-Plugins/PureChat/actions/workflows/build.yml/badge.svg)](https://github.com/NhanAZ-Plugins/PureChat/actions/workflows/build.yml)
-[![Latest release](https://img.shields.io/github/v/release/NhanAZ-Plugins/PureChat)](https://github.com/NhanAZ-Plugins/PureChat/releases/latest)
-[![License](https://img.shields.io/github/license/NhanAZ-Plugins/PureChat)](https://github.com/NhanAZ-Plugins/PureChat/blob/main/LICENSE)
+[![CI](https://github.com/AxolotlBucketLabs/PureChat/actions/workflows/build.yml/badge.svg)](https://github.com/AxolotlBucketLabs/PureChat/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/AxolotlBucketLabs/PureChat)](https://github.com/AxolotlBucketLabs/PureChat/releases/latest)
+[![License](https://img.shields.io/github/license/AxolotlBucketLabs/PureChat)](https://github.com/AxolotlBucketLabs/PureChat/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
 
 
 ## Compatibility
 
 - Axolotl-PM API 5 (`api: [5.0.0]`), tested against the pinned 5.51.1 source in CI.
-- Requires the maintained [PurePerms](https://github.com/NhanAZ-Plugins/PurePerms) plugin.
+- Requires the maintained [PurePerms](https://github.com/AxolotlBucketLabs/PurePerms) plugin.
 - PHP 8.4 for the development and build toolchain.
 
 Set `language: vie` in `config.yml` to use Vietnamese messages. The locale files live in `resources/lang/` and use these ISO 639-2 codes: `eng`, `vie`, `kor`, `rus`, `spa`, `ukr`, `zho`, `ind`, `tur`, `fra`, `por`, `deu`, `jpn`, and `ita`. English (`eng`) is the default.
@@ -63,7 +63,7 @@ ScoreHud is optional. When it is installed, PureChat resolves `purechat.prefix`,
 
 ## Build locally
 
-The repository uses [NhanAZ/DevTools](https://github.com/NhanAZ/DevTools) for reproducible PHAR builds and PHPStan Level Max analysis. A local build from the workspace can be run with:
+The repository uses [AxolotlBucketLabs/DevTools](https://github.com/AxolotlBucketLabs/DevTools) for reproducible PHAR builds and PHPStan Level Max analysis. A local build from the workspace can be run with:
 
 ```powershell
 php -d phar.readonly=0 .tooling/DevTools/bin/devtools.php build --project=. --out=build --overwrite --json

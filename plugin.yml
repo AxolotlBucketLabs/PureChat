@@ -4,7 +4,7 @@ version: 2.1.0
 api: [5.0.0]
 load: POSTWORLD
 author: ["64FF00"]
-authors: ["NhanAZ", "Vecnavium", "DemonicDev"]
+authors: ["AxolotlBucketLabs", "Vecnavium", "DemonicDev"]
 depend: [PurePerms]
 softdepend: [FactionsPro, XeviousPE-Factions, PiggyFactions, ScoreHud]
 commands:
