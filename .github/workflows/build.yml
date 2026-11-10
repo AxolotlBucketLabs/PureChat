@@ -68,7 +68,7 @@ jobs:
 
       - name: Analyze and build pinned PurePerms PHAR
         id: pureperms
-        uses: AxolotlBucketLabs/DevTools@v4.0.0 # v4.0.0
+        uses: AxolotlBucketLabs/DevTools@latest # v4.0.0
         with:
           project: .devtools-dependencies/PurePerms
           output: build-pureperms
@@ -77,7 +77,7 @@ jobs:
 
       - name: Analyze and build with DevTools
         id: build
-        uses: AxolotlBucketLabs/DevTools@v4.0.0 # v4.0.0
+        uses: AxolotlBucketLabs/DevTools@latest # v4.0.0
         with:
           project: .
           output: build
